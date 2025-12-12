@@ -1,6 +1,9 @@
+from controllers.teams_controller import TeamsController
+
+teams_controller = TeamsController()
+
 def lambda_handler(event, context):
-    name = event["name"]
-    print(f"Hello, {name}!")
+    return teams_controller.get_teams()
 
 if __name__ == "__main__":
-    lambda_handler({"name": "Daniel"}, None)
+    print(lambda_handler({"name": "Daniel"}, None))
