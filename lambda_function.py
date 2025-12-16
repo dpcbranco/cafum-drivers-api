@@ -10,16 +10,16 @@ if __name__ == "__main__":
         lambda_handler(
             {
                 "version": "2.0",
-                "routeKey": "DELETE /teams/{team_id}",
+                "routeKey": "PUT /teams",
                 "rawPath": "/path/to/resource",
                 "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
                 "headers": {
                     "Header1": "value1",
                     "Header2": "value1,value2"
                 },
-                "body": "eyJ0ZXN0IjoiYm9keSJ9",
+                "body": "{\"team_id\":\"redbull\",\"team_name\":\"RedBullRacingF1\",\"team_color\":\"#121F45\"}",
                 "pathParameters": {
-                    "team_id": "sauber"
+                    "team_id": "redbull"
                 },
                 "stageVariables": {
                     "stageVariable1": "value1",

@@ -1,9 +1,9 @@
-from connectors.dynamodb_connector import DynamoDBConnector
 from boto3.dynamodb.conditions import Key
 
+from connectors.dynamodb_connector import DynamoDBConnector
 from exceptions.not_found_exception import NotFoundException
 from models.team_dto import TeamDTO
-from models.team_entity import TeamEntity
+from utils.conversion_utils import team_dto_to_entity
 
 
 class TeamsService:
@@ -39,9 +39,8 @@ class TeamsService:
 
         return TeamDTO(team_id=team_entity["sk"], team_name=team_entity["team_name"], team_color=team_entity["team_color"])
 
-    def put_team(self, team: TeamEntity):
-        db_response = self._table.put_item(Item=team.to_db_entity())
-        return db_response
+    def put_team(self, team: TeamDTO):
+        self._table.put_item(Item=team_dto_to_entity(team).to_dict())
 
     def delete_team(self, team_id: str):
         self._table.delete_item(Key={'pk': "TEAM", "sk": team_id})

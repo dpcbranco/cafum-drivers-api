@@ -1,7 +1,8 @@
 import json
 
+from exceptions.invalid_exception import InvalidException
 from exceptions.not_found_exception import NotFoundException
-from models.team_entity import TeamEntity
+from models.team_dto import TeamDTO
 from services.teams_service import TeamsService
 
 
@@ -38,6 +39,12 @@ class TeamsController:
                 "body": json.dumps({"message": str(e)})
             }
 
+        except InvalidException as e:
+            return {
+                "statusCode": 400,
+                "body": json.dumps({"message": str(e)})
+            }
+
         except Exception as e:
             return {
                 "statusCode": 500,
@@ -57,10 +64,9 @@ class TeamsController:
         }
 
     def create_update_team(self, team_json):
-        team_response = self._teams_service.put_team(TeamEntity(**team_json))
+        self._teams_service.put_team(TeamDTO(**team_json))
         return {
-            "statusCode": 201,
-            "body": str(team_response)
+            "statusCode": 201
         }
 
     def delete_team(self, team_id):
