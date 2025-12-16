@@ -1,3 +1,7 @@
+import json
+
+from exceptions.not_found_exception import NotFoundException
+from models.team_entity import TeamEntity
 from services.teams_service import TeamsService
 
 
@@ -13,5 +17,46 @@ class TeamsController:
 
         return cls._instance
 
+    def resolve_request(self, event):
+        method, path = tuple(event["routeKey"].split(" "))
+
+        try:
+            match method, path:
+                case "GET", "/teams":
+                    return self.get_teams()
+                case "GET", "/teams/{team_id}":
+                    return self.get_team_by_id(event["pathParameters"]["team_id"])
+                case "PUT", "/teams":
+                    return self.create_update_team(json.loads(event["body"]))
+                case _:
+                    return {"statusCode": 404}
+        except NotFoundException as e:
+            return {
+                "statusCode": 404,
+                "body": json.dumps({"message": str(e)})
+            }
+
+        except Exception as e:
+            return {
+                "statusCode": 500,
+                "body": json.dumps({"message": str(e)})
+            }
+
     def get_teams(self):
-        return self._teams_service.get_teams()
+        return {
+            "statusCode": 200,
+            "body": str(self._teams_service.list_teams())
+        }
+
+    def get_team_by_id(self, team_id):
+        return {
+            "statusCode": 200,
+            "body": str(self._teams_service.get_team(team_id))
+        }
+
+    def create_update_team(self, team_json):
+        team_response = self._teams_service.put_team(TeamEntity(**team_json))
+        return {
+            "statusCode": 201,
+            "body": str(team_response)
+        }
