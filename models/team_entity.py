@@ -5,12 +5,13 @@ from utils.validation_utils import is_valid_id
 
 
 class TeamEntity:
-    pk: str = "TEAM"
+    pk: str
     sk: str
     team_name: str
     team_color: str
 
-    def __init__(self, team_name, team_color, sk = None):
+    def __init__(self, team_name, team_color, sk):
+        self.pk = "TEAM"
         self.sk = sk
         self.team_name = team_name
         self.team_color = team_color
@@ -27,8 +28,6 @@ class TeamEntity:
 
     def validate(self):
         errors = []
-        if self.pk is None or self.pk is not "TEAM":
-            errors.append("Team PK must be 'TEAM'")
 
         if self.sk is None:
             errors.append("Team SK is required")
