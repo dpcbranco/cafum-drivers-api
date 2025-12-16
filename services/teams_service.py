@@ -42,3 +42,6 @@ class TeamsService:
     def put_team(self, team: TeamEntity):
         db_response = self._table.put_item(Item=team.to_db_entity())
         return db_response
+
+    def delete_team(self, team_id: str):
+        self._table.delete_item(Key={'pk': "TEAM", "sk": team_id})

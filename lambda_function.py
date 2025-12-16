@@ -10,7 +10,7 @@ if __name__ == "__main__":
         lambda_handler(
             {
                 "version": "2.0",
-                "routeKey": "GET /teams/{team_id}",
+                "routeKey": "DELETE /teams/{team_id}",
                 "rawPath": "/path/to/resource",
                 "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
                 "headers": {
@@ -19,7 +19,7 @@ if __name__ == "__main__":
                 },
                 "body": "eyJ0ZXN0IjoiYm9keSJ9",
                 "pathParameters": {
-                    "team_id": "batata"
+                    "team_id": "sauber"
                 },
                 "stageVariables": {
                     "stageVariable1": "value1",

@@ -28,6 +28,8 @@ class TeamsController:
                     return self.get_team_by_id(event["pathParameters"]["team_id"])
                 case "PUT", "/teams":
                     return self.create_update_team(json.loads(event["body"]))
+                case "DELETE", "/teams/{team_id}":
+                    return self.delete_team(event["pathParameters"]["team_id"])
                 case _:
                     return {"statusCode": 404}
         except NotFoundException as e:
@@ -59,4 +61,10 @@ class TeamsController:
         return {
             "statusCode": 201,
             "body": str(team_response)
+        }
+
+    def delete_team(self, team_id):
+        self._teams_service.delete_team(team_id=team_id)
+        return {
+            "statusCode": 204
         }
