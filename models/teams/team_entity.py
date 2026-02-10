@@ -9,12 +9,16 @@ class TeamEntity:
     sk: str
     team_name: str
     team_color: str
+    first_driver: dict
+    second_driver: dict
 
-    def __init__(self, team_name, team_color, sk):
-        self.pk = "TEAM"
+    def __init__(self, team_name, team_color, sk, pk=None, first_driver=None, second_driver=None):
+        self.pk = "TEAM" if pk is None else pk
         self.sk = sk
         self.team_name = team_name
         self.team_color = team_color
+        self.first_driver = first_driver
+        self.second_driver = second_driver
         self.validate()
 
     def __str__(self):
@@ -24,7 +28,14 @@ class TeamEntity:
         return self.__str__()
 
     def to_dict(self):
-        return self.__dict__
+        return {
+            "pk": self.pk,
+            "sk": self.sk,
+            "team_name": self.team_name,
+            "team_color": self.team_color,
+            "first_driver": self.first_driver,
+            "second_driver": self.second_driver
+        }
 
     def validate(self):
         errors = []
