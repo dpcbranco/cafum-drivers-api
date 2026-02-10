@@ -2,7 +2,7 @@ import json
 
 from exceptions.invalid_exception import InvalidException
 from exceptions.not_found_exception import NotFoundException
-from models.team_dto import TeamDTO
+from models.teams.team_dto import TeamDTO
 from services.teams_service import TeamsService
 
 
@@ -33,6 +33,7 @@ class TeamsController:
                     return self.delete_team(event["pathParameters"]["team_id"])
                 case _:
                     return {"statusCode": 404}
+
         except NotFoundException as e:
             return {
                 "statusCode": 404,
